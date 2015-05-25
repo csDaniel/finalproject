@@ -24,9 +24,18 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
+    
     // Project settings
-    config: config,
+    config: config,    
+    php: {
+        test: {
+            options: {
+                keepalive: true,
+                open: true
+            }
+        }
+    },
+
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {

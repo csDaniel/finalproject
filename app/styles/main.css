@@ -9,6 +9,9 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background-image: url("/images/cgc01.jpg");
+  background-color: #D6D6D6;
+  
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -61,6 +64,16 @@ body {
 
 .marketing p + h4 {
   margin-top: 28px;
+}
+
+#main {
+  background-color: #D6D6D6;
+}
+
+.credentials {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
 }
 
 /* Responsive: Portrait tablets and up */

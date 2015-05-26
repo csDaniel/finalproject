@@ -3,28 +3,26 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 function init() { 
-  echo '<class = "container" id="loginContainer">';
+  echo '<div class ="container" id="loginContainer">';
     echo '<div id="loginChild">';
       echo '<div id="logininfo" class="credentials">';
         echo '</br>';
-        echo '<form id="loginUser">';
+        echo '<form id="loginUser" class="inputBox">';
           echo '<span>Username <input type="text"></input></span></br>';
           echo '<span>Password <input type="password"></input></span></br>';
-          echo '<button class="btn btn-info" type="submit">Login</submit>';
+          echo '<button class="btnbottom" type="submit">Login</button>';
         echo '</form>';
       echo '</div>';
       
       echo '<div id="newAccount" class="credentials">';
-        echo '<form id="createNew">';
+        echo '<form id="createNew" class="inputBox">';
           echo '<span>New Username <input type="text"></input></span></br>';
-          echo '<span>New Passowrd <input type="password"></input></span></br>';
-          echo '<button class="btn btn-info" type="submit">Create New Account</submit>';
+          echo '<span>New Password <input type="password"></input></span></br>';
+          echo '<button class="btnbottom" type="submit">Create a new account</button>';
       echo '</div>';
-      echo '<button type="button" class="btn btn-default btn-lg">';
-            echo '<span class="glyphicon glyphicon-minus" aria-hidden="true" onclick="hideLogin()"></span>';
-          echo '</button>';
+      echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
     echo '</div>';
-  echo '</class>';
+  echo '</div>';
  }
 
 function login() {

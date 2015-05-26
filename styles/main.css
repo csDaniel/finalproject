@@ -1,8 +1,68 @@
 body {
   background-color: skyblue;
+
+}
+
+.container {
+  background-color: red;
+  
 }
 
 .btn {
-  
+  border: 4px solid #669900;
+  background-color: lightgreen;
+  border-radius: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 50px;
+  float: right;
+  top: 1em;
+  right: 1em;
+  text-align: center;
+}
 
+.btnbottom {
+  border: 4px solid #669900;
+  background-color: lightgreen;
+  border-radius: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 50%;
+  text-align: center;
+}
+
+#loginContainer {
+    float: right;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#loginChild {
+  background-color: lightpink;
+  border-radius: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inputBox *  {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#mapContainer {
+  height: 500px;
+  width: 400px;
+  background-colod: #CCC;
+}
+
+#loginContainer > div , span {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#main * {
+  margin-left: auto;
+  margin-right: auto;
 }

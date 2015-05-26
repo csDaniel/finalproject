@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-function init() { 
+function menu() { 
   echo '<div class ="container" id="loginContainer">';
     echo '<div id="loginChild">';
       echo '<div id="logininfo" class="credentials">';
@@ -35,11 +35,22 @@ function login() {
   
 }
 
+function findClosest($curLat, $curLon) {
+  $testLat = 37.49875;
+  $testLon = 127.027455;
+  $phpArray = array(floatval($curLat), floatval($curLon), $testLat, $testLon);
+  echo json_encode($phpArray);  
+}
+
 if (isset($_REQUEST['action'])) {
   $action = $_REQUEST['action'];
   
-  if ($action == 'init') {
-    init();
+  if ($action == 'menu') {
+    menu();
+  } elseif ($action == 'init') {
+    $curLat = $_REQUEST['currentLat'];
+    $curLon = $_REQUEST['currentLon'];
+    findClosest($curLat, $curLon);
   } elseif ($action == 'login') {
     echo '<p>sorry!</p>';
   } elseif ($action == 'makeNew') {

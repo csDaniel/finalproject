@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-  background-color: red;
+  
   
 }
 
@@ -53,7 +53,7 @@ body {
 
 #mapContainer {
   height: 500px;
-  width: 400px;
+  position: relative;
   background-colod: #CCC;
 }
 

@@ -3,26 +3,21 @@ body {
 
 }
 
-.container {
-  
-  
-}
 
 .btn {
-  border: 4px solid #669900;
+  border: 1px solid #dddddd;
   background-color: lightgreen;
-  border-radius: 5px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  width: 50px;
-  float: right;
+  border-radius: 2px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  width: 100px;
   top: 1em;
   right: 1em;
   text-align: center;
 }
 
 .btnbottom {
-  border: 4px solid #669900;
+  border: 1px solid #dddddd;
   background-color: lightgreen;
   border-radius: 5px;
   padding-bottom: 5px;
@@ -31,38 +26,42 @@ body {
   text-align: center;
 }
 
-#loginContainer {
+#loginSpace {
+  top: 1em;
+  right: 1em;
+
+}
+
+#userMenu, #loginSpace{
     float: right;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    z-index: 1000;
+}
+
+#loginChild, #loginChild *, #loginChild button {
+  border-radius: 5px;
+  padding: 5px;
 }
 
 #loginChild {
-  background-color: lightpink;
-  border-radius: 5px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.inputBox *  {
-  margin-left: auto;
-  margin-right: auto;
+  background-color: #e4e6e9;
+  border: 1px solid #dddddd;
 }
 
 #mapContainer {
   height: 500px;
   position: relative;
-  background-colod: #CCC;
+  background-color: #CCC;
 }
 
-#loginContainer > div , span {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 
 #main * {
   margin-left: auto;
   margin-right: auto;
+}
+
+#locationData {
+  background-color: #E4E6E9;
+  padding: 5px;
+  border-top: 3px solid #2e2e2f;
 }

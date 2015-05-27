@@ -1,27 +1,26 @@
 <?php 
+ini_set('display_startup_errors',1);
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(-1);
 
 function menu() { 
-  echo '<div class ="container" id="loginContainer">';
-    echo '<div id="loginChild">';
-      echo '<div id="logininfo" class="credentials">';
-        echo '</br>';
-        echo '<form id="loginUser" class="inputBox">';
-          echo '<span>Username <input type="text"></input></span></br>';
-          echo '<span>Password <input type="password"></input></span></br>';
-          echo '<button class="btnbottom" type="submit">Login</button>';
-        echo '</form>';
-      echo '</div>';
-      
-      echo '<div id="newAccount" class="credentials">';
-        echo '<form id="createNew" class="inputBox">';
-          echo '<span>New Username <input type="text"></input></span></br>';
-          echo '<span>New Password <input type="password"></input></span></br>';
-          echo '<button class="btnbottom" type="submit">Create a new account</button>';
-      echo '</div>';
-      echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
+  echo '<div id="loginChild">';
+    echo '<div id="logininfo" class="credentials">';
+      echo '</br>';
+      echo '<form id="loginUser" class="inputBox">';
+        echo '<p>Username <input type="text"></input></br></p>';
+        echo '<p>Password <input type="password"></input></br></p>';
+        echo '<button class="btnbottom" type="submit">Login</button>';
+      echo '</form>';
     echo '</div>';
+      
+    echo '<div id="newAccount" class="credentials">';
+      echo '<form id="createNew" class="inputBox">';
+        echo '<p>New Username <input type="text"></input></br></p>';
+        echo '<p>New Password <input type="password"></input></br></p>';
+        echo '<button class="btnbottom" type="submit">Create a new account</button>';
+    echo '</div>';
+    echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
   echo '</div>';
  }
 
@@ -36,10 +35,51 @@ function login() {
 }
 
 function findClosest($curLat, $curLon) {
-  $testLat = 37.49875;
-  $testLon = 127.027455;
-  $phpArray = array(floatval($curLat), floatval($curLon), $testLat, $testLon);
-  echo json_encode($phpArray);  
+  $destLat = 44.568910;
+  $destLon = -123.268810;
+  $phpArray = array(floatval($curLat), floatval($curLon), $destLat, $destLon);
+  //var_dump($curLat); 
+  // originLan, originLon, destLan, destLon
+  // for testing:
+  $curLat1 = 44.564171;
+  $curLon1 = -123.277672;
+  
+  
+  // real output inc!
+  $name = "Taco Bell";
+  $rating = 4;
+  $clean = 3;
+  $purchase = FALSE;
+  $bidet = FALSE;
+  $squat = FALSE;
+  $tpStash = TRUE;
+  $soap = TRUE;
+  echo '<p>Origin: <span id="originLan">'.$curLat1.'</span> , 
+    <span id="originLon">'.$curLon1.' >>> ';
+  echo 'Destination: <span id="destLat">'.$destLat.'</span> , 
+    <span id="destLon">'.$destLon.'</br></p>';
+  echo '<p id = "name">Name:'.$name.'</br></p>';
+  echo '<p>Rating: '.$rating.'/5</br></p>';
+  echo '<p>Cleanliness: '.$clean.'/5</br></p>';
+  echo '<p>The bathroom has: ';
+  if ($purchase) {
+    echo 'purchase required, ';
+  }
+  if ($bidet) {
+    echo 'a bidet, ';
+  }
+  if ($squat) {
+    echo 'a squat toilet, ';
+    
+  }
+  if ($tpStash) {
+    echo 'ample toilet paper, ';
+  }
+  if ($soap) {
+    echo 'soap';
+  }
+  echo '</p>';
+  
 }
 
 if (isset($_REQUEST['action'])) {

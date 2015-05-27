@@ -18,7 +18,8 @@ function loginAttempt(statement) {
     //connection is good and status is okay;
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       var response = xmlhttp.responseText;
-      var elem = document.getElementById('LoginSpace');
+      // loginSpace
+      var elem = document.getElementById('loginSpace');
       elem.innerHTML = response;
       accountAccessListeners();
     }
@@ -60,12 +61,6 @@ function initializeLogin () {
 }
 
 // regarding lat/lon
-function findNearest(curLat, curLon) {
-  var statement = 'action=init';
-  statement += '&currentLat=' + curLat + '&currentLon=' + curLon;
-  
-  findNearestJSON(statement);
-}
 
 function findNearestJSON(statement) {
   var xmlhttp;
@@ -78,9 +73,9 @@ function findNearestJSON(statement) {
   xmlhttp.onreadystatechange = function() {
     //connection is good and status is okay;
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // should return as a JSON response. will need to be parsed in the morning!
-      var response = xmlhttp.responseText;
-      // attempting to print out the directions
+      var response = xmlhttp.responseText;      
+      var elem = document.getElementById('locationData');
+      elem.innerHTML = response;
     }
   };
   
@@ -88,18 +83,18 @@ function findNearestJSON(statement) {
   xmlhttp.open("GET",url + statement,true);
   xmlhttp.send();
 
+    
+  calcRoute();
+  
 }  
 
 
 // map stuff
-
 var map;
 var innerMap = document.getElementById('mapContainer');
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 // var stepDisplay;
-
-
 
 function initializeMap() {
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -120,25 +115,23 @@ function initializeMap() {
   map = new google.maps.Map(document.getElementById('mapContainer'), mapOptions);
   directionsDisplay.setMap(map);
       
-  var marker = new google.maps.Marker({
+ /* var marker = new google.maps.Marker({
     position: latlng,
     map: map,
     title: "Current Location"
-  });
-  
-  calcRoute();
+  });*/
 }
 
 function showPosition(position) {
   // access to users lat/long can be found here.
   localStorage.setItem("curLat", position.coords.latitude);
   localStorage.setItem("curLon", position.coords.longitude);
+  
   var currentLat = position.coords.latitude;
   var currentLon = position.coords.longitude;
-  
-
   var statement = 'action=init';
-  statement += '&currentLat=' + currentLat + '&currentLon=' + currentLon;
+  statement += '&currentLat=' + currentLat;
+  statement += '&currentLon=' + currentLon;
   
   findNearestJSON(statement);
 }
@@ -146,17 +139,19 @@ function showPosition(position) {
 // HERE BE PLUGIN ATTEMPT 
  
 function calcRoute() {
-
-  // how to get the values in here!!!
-  var mapDirections = JSON.parse(localStorage["JSONresponse"]);
-  console.log(mapDirections);
-
+  
+  /*
+  var originLan = document.getElementById('originLan').innerHTML;
+  var originLon = document.getElementById('originLon').innerHTML;
+  var destLan = document.getElementById('destLan').innerHTML;
+  var destLon = document.getElementById('destLon').innerHTML;
+*/
   
   // retireve the start and end locations and create
   // a DirectionsRequest using WALKING directions.
   //lat,long
-  var start = new google.maps.LatLng(37.499344, 127.026248);
-  var end = new google.maps.LatLng(37.498620, 127.024113);
+  var start = new google.maps.LatLng(44.564171, -123.277672);
+  var end = new google.maps.LatLng(44.568910, -123.268810);
   var request = {
     origin: start,
     destination: end,

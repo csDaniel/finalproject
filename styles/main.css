@@ -7,12 +7,10 @@ body {
 .btn {
   border: 1px solid #dddddd;
   background-color: lightgreen;
-  border-radius: 2px;
-  padding-bottom: 7px;
-  padding-top: 7px;
+  border-radius: 3px;
+  padding-bottom: 12px;
+  padding-top: 12px;
   width: 100px;
-  top: 1em;
-  right: 1em;
   text-align: center;
 }
 
@@ -26,17 +24,22 @@ body {
   text-align: center;
 }
 
-#loginSpace {
-  top: 1em;
-  right: 1em;
-
-}
-
-#userMenu, #loginSpace{
+#userMenu, #loginSpace, #startSearch{
     float: right;
     position: absolute;
     z-index: 1000;
 }
+
+#loginSpace, #userMenu {
+  top: 1em;
+  right: 1em;
+}
+
+#startSearch {
+  bottom: 3em;
+  right: 1em;
+}
+
 
 #loginChild, #loginChild *, #loginChild button {
   border-radius: 5px;
@@ -49,7 +52,7 @@ body {
 }
 
 #mapContainer {
-  height: 500px;
+  height: 70vh;
   position: relative;
   background-color: #CCC;
 }
@@ -64,4 +67,5 @@ body {
   background-color: #E4E6E9;
   padding: 5px;
   border-top: 3px solid #2e2e2f;
+  height: 25vh;
 }

@@ -1,4 +1,14 @@
 <?php 
+
+include 'finalConfig.php';
+
+
+// bathid, name, latitude, longitude, rating, clean, purchase, bidet, squat, tpStash, soap
+$mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+if (!$mysqli || $mysqli->connection_errno) {
+  echo "Failed to connect to MySQL: (" . $mysqli->connection_errno . ") " . $mysqli->connect_error;
+}
+
 ini_set('display_startup_errors',1);
 ini_set('display_errors', 1);
 error_reporting(-1);
@@ -34,52 +44,99 @@ function login() {
   
 }
 
-function findClosest($curLat, $curLon) {
+function prepareClosest($curLat, $curLon) {
+  global $mysqli;
+  global $toiletDB;
+  
+  $revised = $mysqli->prepare("SELECT absLoc FROM $toiletDB");
+  $revised->execute();
+  $res = $revised->get_result();
+  
+  findClosest($res, $curLat, $curLon);
+  
+  $res->close();  
+}
+
+
+function findClosest($res, $curLat, $curLon) {
   $destLat = 44.568910;
   $destLon = -123.268810;
-  $phpArray = array(floatval($curLat), floatval($curLon), $destLat, $destLon);
-  //var_dump($curLat); 
+
+  
+  // REMEMBER TO CHANGE CURLAT1 to CURLAT and CURLON1 to CURLON
   // originLan, originLon, destLan, destLon
   // for testing:
-  $curLat1 = 44.564171;
-  $curLon1 = -123.277672;
-  
-  
-  // real output inc!
-  $name = "Taco Bell";
-  $rating = 4;
-  $clean = 3;
-  $purchase = FALSE;
-  $bidet = FALSE;
-  $squat = FALSE;
-  $tpStash = TRUE;
-  $soap = TRUE;
-  echo '<p>Origin: <span id="originLan">'.$curLat1.'</span> , 
-    <span id="originLon">'.$curLon1.' >>> ';
-  echo 'Destination: <span id="destLat">'.$destLat.'</span> , 
-    <span id="destLon">'.$destLon.'</br></p>';
-  echo '<p id = "name">Name:'.$name.'</br></p>';
-  echo '<p>Rating: '.$rating.'/5</br></p>';
-  echo '<p>Cleanliness: '.$clean.'/5</br></p>';
-  echo '<p>The bathroom has: ';
-  if ($purchase) {
-    echo 'purchase required, ';
+  //$curLat1 = 44.564171;
+  //$curLon1 = -123.277672;  
+  //$curLat1 = 44.596484;
+  //$curLon1 = -123.298727;
+  // silly testing
+  $curLat1 = 39.772893;
+  $curLon1 = -104.861174;
+  $absLoc = abs($curLat1) + abs($curLon1);
+
+
+  // name, absLoc, latitude, longitude, rating, clean, purchase, bidet, squat, tpStash, soap
+  while ($row = $res->fetch_assoc()) {
+    $dbAbsLoc[] =floatval($row['absLoc']);
   }
-  if ($bidet) {
-    echo 'a bidet, ';
-  }
-  if ($squat) {
-    echo 'a squat toilet, ';
+
+  // locate the nearest absLoc point
+  $i = 0;
+  do {
+    $tempLoc = abs($absLoc - $dbAbsLoc[$i]);   
+    $i++;
+  } while ($i < count($dbAbsLoc) && $tempLoc > (abs($absLoc - $dbAbsLoc[$i])));
+  $tempLoc = $dbAbsLoc[$i-1];
+  requestClosest($tempLoc, $curLat1, $curLon1);
+}
+
+function requestClosest($tempLoc, $curLat, $curLon) {
+  global $mysqli;
+  global $toiletDB;
     
-  }
-  if ($tpStash) {
-    echo 'ample toilet paper, ';
-  }
-  if ($soap) {
-    echo 'soap';
-  }
-  echo '</p>';
+  // make function and print the table
+      
+  $revised = $mysqli->prepare("SELECT * FROM $toiletDB WHERE absLoc = $tempLoc");
+  $revised->execute();
+  $res = $revised->get_result();
   
+  printClosest($res, $curLat, $curLon);
+  
+  $res->close(); 
+}
+  
+  function printClosest($res, $curLat, $curLon) {
+   // name, absLoc, latitude, longitude, rating, clean, purchase, bidet, squat, tpStash, soap
+  // real output inc!
+  
+  while ($row = $res->fetch_assoc()) { 
+    echo '<p>Origin: <span id="originLat">'.$curLat.'</span> , 
+      <span id="originLon">'.$curLon.'</span> >>> ';
+    echo 'Destination: <span id="destLat">' .$row['latitude']. '</span> , 
+      <span id="destLon">' .$row['longitude']. '</span></br></p>';
+    echo '<h2><p id = "name">' .$row['name']. '</br></p></h2>';
+    echo '<p>Rating: ' .$row['rating']. '/5</br></p>';
+    echo '<p>Cleanliness: ' .$row['clean']. '/5</br></p>';
+    echo '<p>The bathroom has: ';
+    if ($row['purchase']) {
+      echo 'purchase required, ';
+    }
+    if ($row['bidet']) {
+      echo 'a bidet, ';
+    }
+    if ($row['squat']) {
+      echo 'a squat toilet, ';
+      
+    }
+    if ($row['tpStash']) {
+      echo 'ample toilet paper, ';
+    }
+    if ($row['soap']) {
+      echo 'soap';
+    }
+    echo '</p>';
+  }
 }
 
 if (isset($_REQUEST['action'])) {
@@ -90,7 +147,7 @@ if (isset($_REQUEST['action'])) {
   } elseif ($action == 'init') {
     $curLat = $_REQUEST['currentLat'];
     $curLon = $_REQUEST['currentLon'];
-    findClosest($curLat, $curLon);
+    prepareClosest($curLat, $curLon);
   } elseif ($action == 'login') {
     echo '<p>sorry!</p>';
   } elseif ($action == 'makeNew') {

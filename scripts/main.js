@@ -1,6 +1,7 @@
 window.onload = function() {
 
   document.getElementById('userMenu').addEventListener('click',initializeLogin);
+  document.getElementById('startSearch').addEventListener('click', calcRoute);
   initializeMap();
   
 };
@@ -84,7 +85,7 @@ function findNearestJSON(statement) {
   xmlhttp.send();
 
     
-  calcRoute();
+  //calcRoute();
   
 }  
 
@@ -140,18 +141,21 @@ function showPosition(position) {
  
 function calcRoute() {
   
-  /*
-  var originLan = document.getElementById('originLan').innerHTML;
+  
+  var originLan = document.getElementById('originLat').innerHTML;
   var originLon = document.getElementById('originLon').innerHTML;
-  var destLan = document.getElementById('destLan').innerHTML;
+  var destLan = document.getElementById('destLat').innerHTML;
   var destLon = document.getElementById('destLon').innerHTML;
-*/
+
   
   // retireve the start and end locations and create
   // a DirectionsRequest using WALKING directions.
   //lat,long
-  var start = new google.maps.LatLng(44.564171, -123.277672);
-  var end = new google.maps.LatLng(44.568910, -123.268810);
+  
+  var start = new google.maps.LatLng(originLan, originLon);
+  var end = new google.maps.LatLng(destLan, destLon);
+  // var start = new google.maps.LatLng(44.564171, -123.277672);
+  // var end = new google.maps.LatLng(44.568910, -123.268810);
   var request = {
     origin: start,
     destination: end,

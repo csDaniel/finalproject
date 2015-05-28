@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 include 'finalConfig.php';
 
 
@@ -13,40 +13,74 @@ ini_set('display_startup_errors',1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-function menu() { 
+function loginMenu() { 
+// test with logging in
   echo '<div id="loginChild">';
     echo '<div id="logininfo" class="credentials">';
       echo '</br>';
-      echo '<form id="loginUser" class="inputBox">';
-        echo '<p>Username <input type="text"></input></br></p>';
-        echo '<p>Password <input type="password"></input></br></p>';
-        echo '<button class="btnbottom" type="submit">Login</button>';
+      echo '<form name="loginUser" class="inputBox" method="POST" action="login.php">';
+        echo '<p>Username <input type="text" name="loginName" value="" required></br></p>';
+        echo '<p>Password <input type="password" name="loginSecret" value="" required></br></p>';
+        echo '<input class="btnbottom" type="submit" name="action" value="login">';
       echo '</form>';
     echo '</div>';
       
     echo '<div id="newAccount" class="credentials">';
-      echo '<form id="createNew" class="inputBox">';
-        echo '<p>New Username <input type="text"></input></br></p>';
-        echo '<p>New Password <input type="password"></input></br></p>';
-        echo '<button class="btnbottom" type="submit">Create a new account</button>';
+      echo '</br>';
+      echo '<form name="createNew" class="inputBox" method="POST" action="login.php">';
+        echo '<p>New Username <input type="text" name="newName" value="" required></input></br></p>';
+        echo '<p>New Password <input type="password" name="newSecret" value="" required></input></br></p>';
+        echo '<input class="btnbottom" type="submit" name="action" value="makeNew">';
     echo '</div>';
     echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
   echo '</div>';
  }
 
-function login() {
+function userMenu() {
+  echo '<div id="userChild">';
+    echo '<p>Welcome back, ' .$_SESSION['username']. '.</br></p>';
+    echo '<div class="btnbottom" id="userAddSelect">Add New Destination</div>';
+    echo '<div class="btnbottom" id="userDeleteSelect">Delete a Location</div>';
+    echo '<div class="btnbottom" id="userLogoutSelect">Logout</div>';
+    echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
+    echo '<br><p>Created by Daniel Ofarrell</p>';
+  echo '</div>';  
+}
+ 
+
+function login($name, $pass) {
+  global $mysqli; 
+  global $userDB; 
   
-  echo '<class = "container">';
-    echo '<div class="credentials">';
-      echo '<p>Welcome to the page!</p>';
-    echo '</div>';
-  echo '</class>';
-  
+  //username password
+  $loginAttempt = $mysqli->prepare("SELECT * FROM $userDB where username= ? ");
+  $loginAttempt->bind_param('s', $name);
+  $loginAttempt->execute();
+  $res = $loginAttempt->get_result();
+  while ($row = mysqli_fetch_row($res)) {
+    if ($pass == $row[2]) {
+      $_SESSION['username'] = $name; 
+      header('Location: index.html');
+    }
+    else {
+      header('Location: index.html');
+      die();
+    }
+  } 
+  $loginAttempt->close();
 }
 
+function logout() {
+  session_destroy();
+  header('Location: index.html');  
+}
+
+
+// DB searching functions
 function prepareClosest($curLat, $curLon) {
   global $mysqli;
   global $toiletDB;
+  
   
   $revised = $mysqli->prepare("SELECT absLoc FROM $toiletDB");
   $revised->execute();
@@ -143,16 +177,36 @@ if (isset($_REQUEST['action'])) {
   $action = $_REQUEST['action'];
   
   if ($action == 'menu') {
-    menu();
+    if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+      loginMenu();
+    } else {
+      userMenu();
+    }
   } elseif ($action == 'init') {
-    $curLat = $_REQUEST['currentLat'];
-    $curLon = $_REQUEST['currentLon'];
-    prepareClosest($curLat, $curLon);
+      $curLat = $_REQUEST['currentLat'];
+      $curLon = $_REQUEST['currentLon'];
+      prepareClosest($curLat, $curLon);
   } elseif ($action == 'login') {
-    echo '<p>sorry!</p>';
+      $name = $_REQUEST['loginName'];
+      $pass = $_REQUEST['loginSecret'];
+      login($name, $pass);
   } elseif ($action == 'makeNew') {
+    //newName, newSecret
     echo '<p>making new!</p>';
+  } elseif ($action == 'logout') {
+      logout();
   }
-  
 }
+
+// EXTRA STUFF
+function updateMovie($id, $rented) {
+  global $mysqli;
+  global $table;
+  $update = $mysqli->prepare("UPDATE $table SET rented = ? WHERE id = ?");
+  $update->bind_param('ii', $rented, $id);
+  $update->execute();
+  $update->close();
+}
+
+
 ?>

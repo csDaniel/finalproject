@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
   <head>
     <title>Public Bathroom Finder</title>
@@ -6,7 +10,7 @@
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-      <div class="header">
+      <div class="header" id="headerMenu">
         <div id="userMenu" class="btn">
           <span>+</span>
         </div>
@@ -26,7 +30,6 @@
       </div>
       
       <div class="footer">
-        <p>made by Daniel Ofarrell</p>
       </div>
  
   </body>

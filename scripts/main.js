@@ -33,31 +33,43 @@ function loginAttempt(statement) {
 }
 
 function accountAccessListeners() {
-  document.getElementById('loginUser').addEventListener('click', attemptLogin);
-  document.getElementById('newAccount').addEventListener('click', makeNewAccount);
+  //document.getElementById('loginStart').addEventListener('click', attemptLogin);
+  //document.getElementById('newAccount').addEventListener('click', makeNewAccount);
+  //var hideLogin = document.getElementById('hideLoginDiv');
+  //if (hideLogin) {
   document.getElementById('hideLoginDiv').addEventListener('click', hideLogin);
+  document.getElementById('userLogoutSelect').addEventListener('click', logout);
 }
 
 function hideLogin() {
   var deleteMe = document.getElementById('loginChild');
   deleteMe.parentElement.removeChild(deleteMe); 
+  console.log("test");
   
 }
 
+// deprecated?
 function attemptLogin() {
   var statement = 'action=login';
-  loginAttempt(statement);  
+  console.log(name);
+  console.log(secret);
+  //loginAttempt(statement);  
   console.log("hello");
 }
 
 function makeNewAccount () {
   var statement = 'action=makeNew';
-  loginAttempt(statement);
+ // loginAttempt(statement);
   console.log("makeNew");
 }
 
 function initializeLogin () {
   var statement = 'action=menu';
+  loginAttempt(statement);
+}
+
+function logout() {
+  var statement = 'action=logout';
   loginAttempt(statement);
 }
 
@@ -81,12 +93,8 @@ function findNearestJSON(statement) {
   };
   
   var url = "login.php?";
-  xmlhttp.open("GET",url + statement,true);
-  xmlhttp.send();
-
-    
-  //calcRoute();
-  
+  xmlhttp.open("POST",url + statement,true);
+  xmlhttp.send();  
 }  
 
 

@@ -15,12 +15,13 @@ body {
 }
 
 .btnbottom {
-  border: 1px solid #dddddd;
+  border: 1px solid #c6c6c6;
   background-color: lightgreen;
   border-radius: 5px;
   padding-bottom: 5px;
   padding-top: 5px;
-  width: 50%;
+  margin-bottom: 5px;
+  width: 80%;
   text-align: center;
 }
 
@@ -41,12 +42,13 @@ body {
 }
 
 
+#userChild, #userChild *, #userChild button, 
 #loginChild, #loginChild *, #loginChild button {
   border-radius: 5px;
   padding: 5px;
 }
 
-#loginChild {
+#userChild, #loginChild {
   background-color: #e4e6e9;
   border: 1px solid #dddddd;
 }
@@ -58,7 +60,7 @@ body {
 }
 
 
-#main * {
+#main *, #headerMenu * {
   margin-left: auto;
   margin-right: auto;
 }

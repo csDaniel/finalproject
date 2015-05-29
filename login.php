@@ -15,7 +15,7 @@ error_reporting(-1);
 
 function loginMenu() { 
 // test with logging in
-  echo '<div id="loginChild">';
+  echo '<div id="userChild">';
     echo '<div id="logininfo" class="credentials">';
       echo '</br>';
       echo '<form name="loginUser" class="inputBox" method="POST" action="login.php">';
@@ -32,21 +32,46 @@ function loginMenu() {
         echo '<p>New Password <input type="password" name="newSecret" value="" required></input></br></p>';
         echo '<input class="btnbottom" type="submit" name="action" value="makeNew">';
     echo '</div>';
-    echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
+    echo '<input type="button" class="btnbottom" id="hideLoginDiv" value="Hide Login" onclick="hideMenu()">';
   echo '</div>';
  }
 
 function userMenu() {
   echo '<div id="userChild">';
     echo '<p>Welcome back, ' .$_SESSION['username']. '.</br></p>';
-    echo '<div class="btnbottom" id="userAddSelect">Add New Destination</div>';
-    echo '<div class="btnbottom" id="userDeleteSelect">Delete a Location</div>';
-    echo '<div class="btnbottom" id="userLogoutSelect">Logout</div>';
-    echo '<div class="btnbottom" id="hideLoginDiv">Hide Login</div>';
+    echo '<input type="button" class="btnbottom" id="userAddSelect" value="Add New Destination" onclick="addNewBathroom()">';
+    echo '<input type="button" class="btnbottom" id="userDeleteSelect" value="Delete a Location">';
+    echo '<input type="button" class="btnbottom" id="userLogoutSelect" value="Logout" onclick="logout()">';
+    echo '<input type="button" class="btnbottom" id="hideMenuDiv" value="Hide Menu" onclick="hideMenu()">';
     echo '<br><p>Created by Daniel Ofarrell</p>';
   echo '</div>';  
 }
- 
+
+
+// CURRENT PROJECT FIX THE ADD BATHROOM MENU!
+function  newBathroomMenu($curLat, $curLon) {
+  echo '<div id="userChild">';
+    echo '<p>Add a New Bathroom</br></p>';
+    echo '<form name="addNewBathroom" class="inputBox" method="POST" action="login.php">';
+      echo '<input type="text" name="newBathName" value ="" requires/>';
+      // name
+      echo '<input type="number" step="any" value ="'.$curLat.'" requires/>';
+      // latitude
+      // lon
+      echo '<input type="number" step="any" value ="'.$curLon.'" requires/>;
+      //rating
+      
+      // clean 
+      // purchase 
+      // bidet 
+      // squat 
+      // tpStash 
+      // soap 
+      
+  
+}
+
+
 
 function login($name, $pass) {
   global $mysqli; 
@@ -72,6 +97,7 @@ function login($name, $pass) {
 
 function logout() {
   session_destroy();
+  die();
   header('Location: index.html');  
 }
 
@@ -193,6 +219,10 @@ if (isset($_REQUEST['action'])) {
   } elseif ($action == 'makeNew') {
     //newName, newSecret
     echo '<p>making new!</p>';
+  } elseif ($action == 'addNewBathroom') {
+      $curLat = $_REQUEST['currentLat'];
+      $curLon = $_REQUEST['currentLon'];
+      newBathroomMenu($curLat, $curLon);    
   } elseif ($action == 'logout') {
       logout();
   }

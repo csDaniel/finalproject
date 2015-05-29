@@ -32,31 +32,23 @@ function loginAttempt(statement) {
   
 }
 
+// deprecated?
 function accountAccessListeners() {
   //document.getElementById('loginStart').addEventListener('click', attemptLogin);
   //document.getElementById('newAccount').addEventListener('click', makeNewAccount);
   //var hideLogin = document.getElementById('hideLoginDiv');
   //if (hideLogin) {
-  document.getElementById('hideLoginDiv').addEventListener('click', hideLogin);
-  document.getElementById('userLogoutSelect').addEventListener('click', logout);
+ // document.getElementById('hideLoginDiv').addEventListener('click', hideLogin);
+ // document.getElementById('userLogoutSelect').addEventListener('click', logout);
 }
 
-function hideLogin() {
-  var deleteMe = document.getElementById('loginChild');
+function hideMenu() {
+  var deleteMe = document.getElementById('userChild');
   deleteMe.parentElement.removeChild(deleteMe); 
-  console.log("test");
-  
+  console.log("test");  
 }
 
-// deprecated?
-function attemptLogin() {
-  var statement = 'action=login';
-  console.log(name);
-  console.log(secret);
-  //loginAttempt(statement);  
-  console.log("hello");
-}
-
+// will be deprecated?
 function makeNewAccount () {
   var statement = 'action=makeNew';
  // loginAttempt(statement);
@@ -69,12 +61,24 @@ function initializeLogin () {
 }
 
 function logout() {
+  hideMenu();
   var statement = 'action=logout';
   loginAttempt(statement);
 }
 
-// regarding lat/lon
 
+function addNewBathroom() {
+  var currentLat = document.getElementById('originLat').innerHTML;
+  var currentLon = document.getElementById('originLon').innerHTML;
+  
+  var statement = 'action=addNewBathroom';
+  statement += '&currentLan' + currentLat;
+  statement += '$currentLon' + currentLon;
+  //loginAttempt(statement);
+  
+}
+
+// regarding lat/lon
 function findNearestJSON(statement) {
   var xmlhttp;
   if (window.XMLHttpRequest) {
@@ -113,7 +117,6 @@ function initializeMap() {
   } else {
     innerMap.innerHTML = "Geolocation is not supported by this browser";  
   }
-  // ATTEMPTING TO PLUG IN THE DIRECTIONS FROM AJAX
 
   var latlng = new google.maps.LatLng(localStorage.getItem("curLat"), localStorage.getItem("curLon"));
   var mapOptions = {
@@ -124,18 +127,15 @@ function initializeMap() {
   map = new google.maps.Map(document.getElementById('mapContainer'), mapOptions);
   directionsDisplay.setMap(map);
       
- /* var marker = new google.maps.Marker({
+  var marker = new google.maps.Marker({
     position: latlng,
     map: map,
     title: "Current Location"
-  });*/
+  });
 }
 
 function showPosition(position) {
   // access to users lat/long can be found here.
-  localStorage.setItem("curLat", position.coords.latitude);
-  localStorage.setItem("curLon", position.coords.longitude);
-  
   var currentLat = position.coords.latitude;
   var currentLon = position.coords.longitude;
   var statement = 'action=init';
@@ -148,7 +148,6 @@ function showPosition(position) {
 // HERE BE PLUGIN ATTEMPT 
  
 function calcRoute() {
-  
   
   var originLan = document.getElementById('originLat').innerHTML;
   var originLon = document.getElementById('originLon').innerHTML;

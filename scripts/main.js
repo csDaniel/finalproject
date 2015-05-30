@@ -66,17 +66,32 @@ function logout() {
   loginAttempt(statement);
 }
 
+function reloadPage() {
+  location.reload();
+}
 
 function addNewBathroom() {
   var currentLat = document.getElementById('originLat').innerHTML;
   var currentLon = document.getElementById('originLon').innerHTML;
   
-  var statement = 'action=addNewBathroom';
-  statement += '&currentLan' + currentLat;
-  statement += '$currentLon' + currentLon;
-  //loginAttempt(statement);
+  var statement = 'action=addNewBathroomRequest';
+  statement += '&currentLat=' + currentLat;
+  statement += '&currentLon=' + currentLon;
+  loginAttempt(statement);
   
 }
+
+function deleteMenu() {
+  var statement = 'action=deleteMenu';
+  loginAttempt(statement);
+}
+
+function deleteBathroom() {
+  // action delete call per bathroom
+  hideMenu();
+  
+}
+
 
 // regarding lat/lon
 function findNearestJSON(statement) {
@@ -127,11 +142,7 @@ function initializeMap() {
   map = new google.maps.Map(document.getElementById('mapContainer'), mapOptions);
   directionsDisplay.setMap(map);
       
-  var marker = new google.maps.Marker({
-    position: latlng,
-    map: map,
-    title: "Current Location"
-  });
+
 }
 
 function showPosition(position) {

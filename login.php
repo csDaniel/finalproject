@@ -140,18 +140,20 @@ function showDeleteMenu() {
   
   //class =rightside
   echo '<div id="userChild">';
-    echo '<h2>Delete a Location</h2>';
+    echo '<h2>Select and Delete a Location</h2>';
+    echo '<table>';
     while ($row = $res->fetch_assoc()) {
-      echo '<div id=' .$row['bathid']. ' class="leftSide">';
-      echo $row['name'];
-      echo '<button class="btnbottom" type="submit" name="action" class="rightside" value="deleteBathroom">Delete</button>';      
-      echo '</div>';
+      echo '<tr id=' .$row['bathid']. '>';
+      echo '<td>' .$row['name']. '</td>';
+      echo '<td><input type="button" id="testidignore" class="btn" value="Delete" onclick="deleteBathroom()"/></td>';
+      //echo '<td><button type="submit" name="action" class="btn" value="deleteBathroom">Delete</button></td>';      
+      echo '</tr>';
     }
+    echo '</table>';
     echo '<input type="button" class="btnbottom" id="hideMenuDiv" value="Hide Menu" onclick="hideMenu()">';
   echo '</div>';
-  
 }
-
+// WORKING HERE ON PROPERLY TAGGING THE OBJECT IN ORDER TO HAVE IT PASS ITS PARAMS THROUGH JS
 function deleteBathroomRequest() {
   
 }

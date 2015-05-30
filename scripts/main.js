@@ -87,9 +87,9 @@ function deleteMenu() {
 }
 
 function deleteBathroom() {
-  // action delete call per bathroom
-  hideMenu();
-  
+  var bathId = this.id;
+  console.log(bathId);
+  //hideMenu();
 }
 
 

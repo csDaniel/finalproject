@@ -26,7 +26,16 @@ body {
   font-weight: bold;
 }
 
-
+.rightside {
+  border: 1px solid #c6c6c6;
+  background-color: lightgreen;
+  border-radius: 5px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: bold;
+}
 
 #userMenu, #loginSpace, #startSearch{
     float: right;

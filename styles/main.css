@@ -78,6 +78,10 @@ body {
   background-color: #CCC;
 }
 
+#inputValidation {
+  color: #0099FF;
+  font-weight: bold;
+}
 
 #main *, #headerMenu * {
   margin-left: auto;

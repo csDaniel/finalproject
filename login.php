@@ -25,6 +25,7 @@ function errorMessage($error) {
 function loginMenu() { 
 // test with logging in
   echo '<div id="userChild">';    
+    echo '<p id="inputValidation"></p>';
     echo '<div id="logininfo" class="credentials">';
       echo '<p>Username <input type="text" id="loginName" value="" required /></p>';
       echo '<p>Password <input type="password" id="loginSecret" value="" requires</p>';
@@ -50,12 +51,11 @@ function userMenu() {
   echo '</div>';  
 }
 
-
-// CURRENT PROJECT FIX THE ADD BATHROOM MENU!
 // newBathName, newLat, newLon, overall, clean, purchase, bidet, squat, tpStash, soap
 function  newBathroomMenu($curLat, $curLon) {
   echo '<div id="userChild">';
     echo '<h2>Add a New Bathroom</h2>';
+    echo '<p id="inputValidation"></p>';
     echo '<table>';
     echo '<form name="addNewBathroom" id ="newBathroom" class="inputBox" method="POST" action="login.php">';
       // name field
@@ -149,6 +149,7 @@ function showDeleteMenu() {
   //class =rightside
   echo '<div id="userChild">';
     echo '<h2>Select and Delete a Location</h2>';
+    echo '<p id="inputValidation"></p>';
     echo '<table>';
     while ($row = $res->fetch_assoc()) {
       echo '<tr id=' .$row['bathid']. '>';
@@ -190,7 +191,7 @@ function login($name, $pass) {
   $loginAttempt->close();
   
   if($res->num_rows === 0) {
-    errorMessage("Invalid Username. Make you sure typed it correctly.");
+    errorMessage("Username not found. Make you sure typed it correctly.");
   }
 
   while ($row = mysqli_fetch_row($res)) {
@@ -236,7 +237,7 @@ function logout() {
 }
 
 
-// DB searching functions
+// ------------DB Searching Section----------------------
 function prepareClosest($curLat, $curLon) {
   global $mysqli;
   global $toiletDB;
@@ -250,23 +251,12 @@ function prepareClosest($curLat, $curLon) {
   $res->close();  
 }
 
+// search based on absolute location (abs(latitude + longitude))
 function findClosest($res, $curLat, $curLon) {
-  $destLat = 44.568910;
-  $destLon = -123.268810;
-  
   // REMEMBER TO CHANGE CURLAT1 to CURLAT and CURLON1 to CURLON
   // originLan, originLon, destLan, destLon
-  // for testing:
-  //$curLat1 = 44.564171;
-  //$curLon1 = -123.277672;  
-  //$curLat1 = 44.596484;
-  //$curLon1 = -123.298727;
-  // silly testing
- // $curLat1 = 39.772893;
-  //$curLon1 = -104.861174;
-  $curLat1 = 44.621520;
-  $curLon1 = -123.123657;
-  $absLoc = abs($curLat1) + abs($curLon1);
+
+  $absLoc = abs($curLat) + abs($curLon);
 
 
   // name, absLoc, latitude, longitude, rating, clean, purchase, bidet, squat, tpStash, soap
@@ -281,9 +271,10 @@ function findClosest($res, $curLat, $curLon) {
     $i++;
   } while ($i < count($dbAbsLoc) && $tempLoc > (abs($absLoc - $dbAbsLoc[$i])));
   $tempLoc = $dbAbsLoc[$i-1];
-  requestClosest($tempLoc, $curLat1, $curLon1);
+  requestClosest($tempLoc, $curLat, $curLon);
 }
 
+// call to DB to locate the specific row
 function requestClosest($tempLoc, $curLat, $curLon) {
   global $mysqli;
   global $toiletDB;
@@ -296,8 +287,9 @@ function requestClosest($tempLoc, $curLat, $curLon) {
   
   $res->close(); 
 }
-  
-  function printClosest($res, $curLat, $curLon) {
+
+// at the bottom of the page, will print out the information on the ending location  
+function printClosest($res, $curLat, $curLon) {
    // name, absLoc, latitude, longitude, rating, clean, purchase, bidet, squat, tpStash, soap
   // real output inc!
   
@@ -329,6 +321,7 @@ function requestClosest($tempLoc, $curLat, $curLon) {
   }
 }
 
+// ------------Request Handler Section----------------------
 if (isset($_REQUEST['action'])) {
   $action = $_REQUEST['action'];
   
@@ -375,8 +368,5 @@ if (isset($_REQUEST['action'])) {
       logout();
   }
 }
-// newBathName, newLat, newLon, overall, clean, purchase, bidet, squat, tpStash, soap
-
-
 
 ?>

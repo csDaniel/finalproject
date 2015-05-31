@@ -8,6 +8,7 @@ window.onload = function() {
 
 // add action=init
 function loginAttempt(statement) {
+    
   var xmlhttp;
   if (window.XMLHttpRequest) {
     xmlhttp = new XMLHttpRequest();
@@ -22,38 +23,78 @@ function loginAttempt(statement) {
       // loginSpace
       var elem = document.getElementById('loginSpace');
       elem.innerHTML = response;
-      accountAccessListeners();
+      // give delete button options
+      if (statement == 'action=deleteMenu') {
+        accountAccessListeners('delete');
+      // initialize login buttons
+      } else if (statement == 'action=menu') {
+        accountAccessListeners('menu');
+      // add buttons on adding new bathroom menu
+      } else if (statement.substring(0,10) == 'action=add') {
+        accountAccessListeners('addNewBath');
+      }
     }
   };
   
+
   var url = "login.php?";
-  xmlhttp.open("GET",url + statement,true);
+  xmlhttp.open("POST",url + statement,true);
   xmlhttp.send();
   
 }
 
 // deprecated?
-function accountAccessListeners() {
-  //document.getElementById('loginStart').addEventListener('click', attemptLogin);
-  //document.getElementById('newAccount').addEventListener('click', makeNewAccount);
-  //var hideLogin = document.getElementById('hideLoginDiv');
-  //if (hideLogin) {
- // document.getElementById('hideLoginDiv').addEventListener('click', hideLogin);
- // document.getElementById('userLogoutSelect').addEventListener('click', logout);
+function accountAccessListeners(reaction) {
+  
+  if (reaction == 'delete') {
+    var removes = document.getElementsByClassName('removeBathLocation');
+    for (var i = 0; i < removes.length; i++) {
+      removes[i].addEventListener('click', deleteBathroom);
+    }
+  }
+  if (reaction == 'menu') {
+    if (document.getElementById('logininfo')) {
+      // user has not logged in
+      console.log("not logged in");
+      document.getElementById('loginSubmit').addEventListener('click', loginRequest);
+      document.getElementById('makeNewSubmit').addEventListener('click', createNewRequest);      
+    } else {
+      console.log("logged in");
+      // User is logged in and on Usermenu
+      document.getElementById('userAddSelect').addEventListener('click', addNewBathroom);
+      document.getElementById('userDeleteSelect').addEventListener('click', deleteMenu);
+      document.getElementById('userLogoutSelect').addEventListener('click', logout);
+    }
+  }
+  //makeNew  
+  if (reaction == 'addNewBath') {
+    document.getElementById('createNewBathroom').addEventListener('click', createNewBathroom);
+  }
+
 }
+
+function loginRequest() {
+  var statement = 'action=login';
+  statement += '&loginName=' + document.getElementById('loginName').value;
+  statement += '&loginSecret=' + document.getElementById('loginSecret').value;
+  hideMenu();  
+  loginAttempt(statement);
+}
+
+function createNewRequest() {
+  var statement = 'action=makeNew';
+  statement += '&newName=' + document.getElementById('newName').value;
+  statement += '&newSecret=' + document.getElementById('newSecret').value;
+  hideMenu();  
+  loginAttempt(statement);
+}
+
 
 function hideMenu() {
   var deleteMe = document.getElementById('userChild');
   deleteMe.parentElement.removeChild(deleteMe); 
-  console.log("test");  
 }
 
-// will be deprecated?
-function makeNewAccount () {
-  var statement = 'action=makeNew';
- // loginAttempt(statement);
-  console.log("makeNew");
-}
 
 function initializeLogin () {
   var statement = 'action=menu';
@@ -77,9 +118,73 @@ function addNewBathroom() {
   var statement = 'action=addNewBathroomRequest';
   statement += '&currentLat=' + currentLat;
   statement += '&currentLon=' + currentLon;
-  loginAttempt(statement);
-  
+  loginAttempt(statement);  
 }
+
+function createNewBathroom() {
+  var statement = 'action=createNewBathroom';  
+  
+  statement += '&newBathName=' + document.getElementById('newBathName').value;
+  statement += '&newLat=' + document.getElementById('newLat').value;
+  statement += '&newLon=' + document.getElementById('newLon').value;
+  
+  // need cases for each one :( o1, c1, p1, b1, q1, t1, s1,
+  if (document.getElementById('o1').checked) {
+    statement += '&overall=' + document.getElementById('o1').value;  
+  } else if (document.getElementById('o2').checked) {
+    statement += '&overall=' + document.getElementById('o2').value;  
+  } else if (document.getElementById('o3').checked) {
+    statement += '&overall=' + document.getElementById('o3').value;  
+  } else if (document.getElementById('o4').checked) {
+    statement += '&overall=' + document.getElementById('o4').value;  
+  } else if (document.getElementById('o5').checked) {
+    statement += '&overall=' + document.getElementById('o5').value;  
+  } 
+  if (document.getElementById('c1').checked) {
+    statement += '&clean=' + document.getElementById('c1').value;  
+  } else if (document.getElementById('c2').checked) {
+    statement += '&clean=' + document.getElementById('c2').value;  
+  } else if (document.getElementById('c3').checked) {
+    statement += '&clean=' + document.getElementById('c3').value;  
+  } else if (document.getElementById('c4').checked) {
+    statement += '&clean=' + document.getElementById('c4').value;  
+  } else if (document.getElementById('c5').checked) {
+    statement += '&clean=' + document.getElementById('c5').value;  
+  } 
+  
+  if (document.getElementById('p1').checked) {
+    statement += '&purchase=' + document.getElementById('p1').value;
+  } else if (document.getElementById('p0').checked) {
+    statement += '&purchase=' + document.getElementById('p0').value;
+  } 
+  
+  if (document.getElementById('b1').checked) {
+    statement += '&bidet=' + document.getElementById('b1').value;
+  } else if (document.getElementById('b0').checked) {
+    statement += '&bidet=' + document.getElementById('b0').value;
+  } 
+  
+  if (document.getElementById('q1').checked) {
+    statement += '&squat=' + document.getElementById('q1').value;
+  } else if (document.getElementById('q0').checked) {
+    statement += '&squat=' + document.getElementById('q0').value;
+  } 
+  
+  if (document.getElementById('t1').checked) {
+    statement += '&tpStash=' + document.getElementById('t1').value;
+  } else if (document.getElementById('t0').checked) {
+    statement += '&tpStash=' + document.getElementById('t0').value;
+  } 
+  
+  if (document.getElementById('s1').checked) {
+    statement += '&soap=' + document.getElementById('s1').value;
+  } else if (document.getElementById('s0').checked) {
+    statement += '&soap=' + document.getElementById('s0').value;
+  }   
+
+  loginAttempt(statement);  
+}
+
 
 function deleteMenu() {
   var statement = 'action=deleteMenu';
@@ -87,12 +192,15 @@ function deleteMenu() {
 }
 
 function deleteBathroom() {
-  var bathId = this.id;
-  console.log(bathId);
-  //hideMenu();
+    // statement == command + id of entire movie
+  var statement = 'action=deleteThisBathroom&id=' + this.parentNode.parentNode.id;
+  
+  loginAttempt(statement);
+
+  hideMenu();
 }
 
-
+/* [Map Related Functions] -------------------------------------------*/
 // regarding lat/lon
 function findNearestJSON(statement) {
   var xmlhttp;
@@ -116,13 +224,10 @@ function findNearestJSON(statement) {
   xmlhttp.send();  
 }  
 
-
-// map stuff
 var map;
 var innerMap = document.getElementById('mapContainer');
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
-// var stepDisplay;
 
 function initializeMap() {
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -155,8 +260,6 @@ function showPosition(position) {
   
   findNearestJSON(statement);
 }
-
-// HERE BE PLUGIN ATTEMPT 
  
 function calcRoute() {
   

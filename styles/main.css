@@ -1,7 +1,8 @@
 body {
   background-color: #F5FFFF;
-
+  
 }
+
 
 #userChild, #userChild *,  
 #loginChild, #loginChild * {
@@ -59,8 +60,11 @@ body {
 }
 
 #startSearch {
-  bottom: 3em;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  bottom: 2em;
   right: 1em;
+  max-height: 350px;
 }
 
 #userChild, #loginChild {
@@ -73,7 +77,7 @@ body {
 }
 
 #mapContainer {
-  height: 70vh;
+  height: 75vh;
   position: relative;
   background-color: #CCC;
 }
@@ -90,7 +94,20 @@ body {
 
 #locationData {
   background-color: #E4E6E9;
-  padding: 5px;
+  padding: 1px;
   border-top: 3px solid #2e2e2f;
   height: 25vh;
+  padding-left: 3%
+}
+
+#locationData * {
+  font-size: 120%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+
+}
+
+#name {
+  font-size: 200%;
+  font-weight: bold;
 }

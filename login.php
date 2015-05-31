@@ -294,13 +294,14 @@ function printClosest($res, $curLat, $curLon) {
   // real output inc!
   
   while ($row = $res->fetch_assoc()) { 
+    echo '<div>';
     echo '<p>Origin: <span id="originLat">'.$curLat.'</span> , 
-      <span id="originLon">'.$curLon.'</span> >>> ';
+      <span id="originLon">'.$curLon.'</span> </br> >>> ';
     echo 'Destination: <span id="destLat">' .$row['latitude']. '</span> , 
       <span id="destLon">' .$row['longitude']. '</span></br></p>';
-    echo '<h2><p id = "name">' .$row['name']. '</br></p></h2>';
-    echo '<p>Rating: ' .$row['rating']. '/5</br></p>';
-    echo '<p>Cleanliness: ' .$row['clean']. '/5</br></p>';
+    echo '<p id = "name">' .$row['name']. '</p>';
+    echo '<p>Rating: ' .$row['rating']. '/5     ';
+    echo 'Cleanliness: ' .$row['clean']. '/5</p>';
     echo '<p>The bathroom has: ';
     if ($row['purchase']) {
       echo 'purchase required, ';
@@ -318,6 +319,7 @@ function printClosest($res, $curLat, $curLon) {
       echo 'soap';
     }
     echo '</p>';
+    echo '</div>';
   }
 }
 

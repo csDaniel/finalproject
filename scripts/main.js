@@ -141,12 +141,12 @@ function reloadPage() {
 
 // initializes the 'createNewBathroom' function. 
 function addNewBathroom() {
-  var currentLat = document.getElementById('originLat').innerHTML;
-  var currentLon = document.getElementById('originLon').innerHTML;
+  var curLat = document.getElementById('originLat').innerHTML;
+  var curLon = document.getElementById('originLon').innerHTML;
   
   var statement = 'action=addNewBathroomRequest';
-  statement += '&currentLat=' + currentLat;
-  statement += '&currentLon=' + currentLon;
+  statement += '&currentLat=' + curLat;
+  statement += '&currentLon=' + curLon;
   loginAttempt(statement);  
 }
 
@@ -349,6 +349,7 @@ var innerMap = document.getElementById('mapContainer');
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 
+
 // display map with current location centered
 function initializeMap() {
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -359,8 +360,21 @@ function initializeMap() {
     innerMap.innerHTML = "Geolocation is not supported by this browser";  
   }
 
-  // centers map
-  var latlng = new google.maps.LatLng(localStorage.getItem("curLat"), localStorage.getItem("curLon"));
+      
+}
+
+function showPosition(position) {
+  // access to users lat/long can be found here.
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  
+  var currentLat = position.coords.latitude;
+  var currentLon = position.coords.longitude;
+  var statement = 'action=init';
+  statement += '&currentLat=' + currentLat;
+  statement += '&currentLon=' + currentLon;
+
+    // centers map
+  var latlng = new google.maps.LatLng(currentLat, currentLon);
   var mapOptions = {
     zoom: 17,
     center: latlng,
@@ -368,16 +382,8 @@ function initializeMap() {
   };
   map = new google.maps.Map(document.getElementById('mapContainer'), mapOptions);
   directionsDisplay.setMap(map);
-      
-}
-
-function showPosition(position) {
-  // access to users lat/long can be found here.
-  var currentLat = position.coords.latitude;
-  var currentLon = position.coords.longitude;
-  var statement = 'action=init';
-  statement += '&currentLat=' + currentLat;
-  statement += '&currentLon=' + currentLon;
+  
+  
   
   findNearestJSON(statement);
 }

@@ -1,5 +1,5 @@
 body {
-  background-color: #F5FFFF;
+  background-color: #3B3B3B;
   
 }
 
@@ -19,6 +19,9 @@ body {
   padding-top: 12px;
   width: 200px;
   text-align: center;
+}
+.btn:active, .btnbottom:active {
+  background-color: #339933;
 }
 
 .btnbottom {
@@ -62,9 +65,9 @@ body {
 #startSearch {
   padding-top: 5%;
   padding-bottom: 5%;
-  bottom: 2em;
+  bottom: 1em;
   right: 1em;
-  max-height: 10%;
+  max-height: 8%;
 }
 
 #userChild, #loginChild {
@@ -77,7 +80,7 @@ body {
 }
 
 #mapContainer {
-  height: 75vh;
+  height: 73vh;
   position: relative;
   background-color: #CCC;
 }
@@ -95,7 +98,7 @@ body {
 #locationData {
   background-color: #E4E6E9;
   border-top: 3px solid #2e2e2f;
-  height: 25vh;
+  height: 24vh;
   padding-left: 3%;
   margin-top: 5px; 
 }

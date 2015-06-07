@@ -163,15 +163,17 @@ function createNewBathroom() {
     statement += '&newBathName=' + document.getElementById('newBathName').value;    
   }
   
-  if (document.getElementById('newLat').value.length < 1) {
-    document.getElementById('inputValidation').innerHTML = "Please enter a Latitude";  
+  if (document.getElementById('newLat').value.length < 1 || 
+  (document.getElementById('newLat').value < 0) || (document.getElementById('newLat').value > 80)) {
+    document.getElementById('inputValidation').innerHTML = "Please enter a Latitude 40-180";  
   } else {
     token++;
     statement += '&newLat=' + document.getElementById('newLat').value;    
   }
   
-  if (document.getElementById('newLat').value.length < 1) {
-    document.getElementById('inputValidation').innerHTML = "Please enter a Longitude";      
+  if (document.getElementById('newLon').value.length < 1 ||
+  (document.getElementById('newLon').value < -180) || (document.getElementById('newLon').value > 0)) {
+    document.getElementById('inputValidation').innerHTML = "Please enter a Longitude -180-0";      
   } else {
     token++;
     statement += '&newLon=' + document.getElementById('newLon').value;    

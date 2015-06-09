@@ -55,11 +55,11 @@ function accountAccessListeners(reaction) {
   if (reaction == 'menu') {
     if (document.getElementById('logininfo')) {
       // user has not logged in
-      console.log("not logged in");
+      //console.log("not logged in");
       document.getElementById('loginSubmit').addEventListener('click', loginRequest);
       document.getElementById('makeNewSubmit').addEventListener('click', createNewRequest);      
     } else {
-      console.log("logged in");
+      //console.log("logged in");
       // User is logged in and on Usermenu
       document.getElementById('userAddSelect').addEventListener('click', addNewBathroom);
       document.getElementById('userDeleteSelect').addEventListener('click', deleteMenu);

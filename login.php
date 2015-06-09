@@ -1,4 +1,5 @@
 <?php 
+ini_set('session.save_path', '../sessions');
 session_start();
 include 'finalConfig.php';
 
@@ -9,9 +10,6 @@ if (!$mysqli || $mysqli->connection_errno) {
   echo "Failed to connect to MySQL: (" . $mysqli->connection_errno . ") " . $mysqli->connect_error;
 }
 
-ini_set('display_startup_errors',1);
-ini_set('display_errors', 1);
-error_reporting(-1);
 
 function errorMessage($error) {
   echo '<div id="userChild">';
